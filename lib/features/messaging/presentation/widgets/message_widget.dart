@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cloudy/core/theme/color_theme.dart';
+import 'package:screpagram/core/theme/color_theme.dart';
 import 'package:intl/intl.dart';
 
 class MessageWidget extends StatelessWidget {

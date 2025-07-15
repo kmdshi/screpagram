@@ -1,18 +1,15 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:typed_data';
 
-import 'package:cloudy/features/messaging/domain/entities/initial_data_value.dart';
-import 'package:cloudy/features/messaging/domain/entities/message_entity.dart';
-import 'package:cloudy/features/messaging/domain/repository/messaging_repository.dart';
+import 'package:screpagram/features/messaging/domain/entities/initial_data_value.dart';
+import 'package:screpagram/features/messaging/domain/entities/message_entity.dart';
+import 'package:screpagram/features/messaging/domain/repository/messaging_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
 
 part 'messaging_event.dart';
 part 'messaging_state.dart';
 
-@injectable
 class MessagingBloc extends Bloc<MessagingEvent, MessagingState> {
   final MessagingRepository messagingRepository;
   StreamSubscription<List<MessageEntity>>? _messagesSubscription;

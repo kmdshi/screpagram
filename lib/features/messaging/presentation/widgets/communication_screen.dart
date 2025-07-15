@@ -1,16 +1,15 @@
 import 'dart:typed_data';
 
-import 'package:cloudy/core/gen/assets.gen.dart';
-import 'package:cloudy/core/theme/color_theme.dart';
-import 'package:cloudy/features/messaging/domain/entities/initial_data_value.dart';
-import 'package:cloudy/features/messaging/domain/entities/message_entity.dart';
-import 'package:cloudy/features/messaging/presentation/bloc/messaging_bloc.dart';
-import 'package:cloudy/features/messaging/presentation/widgets/custom_input_field.dart';
-import 'package:cloudy/features/messaging/presentation/widgets/message_widget.dart';
-import 'package:cloudy/features/messaging/presentation/widgets/time_separator_widget.dart';
+import 'package:screpagram/core/gen/assets.gen.dart';
+import 'package:screpagram/core/theme/color_theme.dart';
+import 'package:screpagram/features/messaging/domain/entities/initial_data_value.dart';
+import 'package:screpagram/features/messaging/domain/entities/message_entity.dart';
+import 'package:screpagram/features/messaging/presentation/bloc/messaging_bloc.dart';
+import 'package:screpagram/features/messaging/presentation/widgets/custom_input_field.dart';
+import 'package:screpagram/features/messaging/presentation/widgets/message_widget.dart';
+import 'package:screpagram/features/messaging/presentation/widgets/time_separator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
@@ -60,7 +59,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
         surfaceTintColor: TColorTheme.transparent,
         centerTitle: false,
         leading: IconButton(
-          onPressed: () => context.pop(),
+          onPressed: () {},
           icon: Assets.icons.arrowIcon.image(),
         ),
         title: Row(

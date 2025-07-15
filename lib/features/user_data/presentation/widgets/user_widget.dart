@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:cloudy/features/user_data/domain/entities/last_message_entity.dart';
-import 'package:cloudy/features/user_data/presentation/bloc/user_data_bloc.dart';
+import 'package:screpagram/features/user_data/domain/entities/last_message_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,7 +34,6 @@ class _UserWidgetState extends State<UserWidget> {
   void initState() {
     super.initState();
     _lastMessageController = StreamController<LastMessageEntity?>();
-    _lastMessageFuture = _subscribeToLastMessageStream();
   }
 
   @override
@@ -149,33 +147,6 @@ class _UserWidgetState extends State<UserWidget> {
       return userName;
     } else {
       return '${userName.substring(0, 5)}...${widget.userName.substring(widget.userName.length - 3, widget.userName.length)}';
-    }
-  }
-
-  Future<void> _subscribeToLastMessageStream() async {
-    try {
-      final stream = await context
-          .read<UserDataBloc>()
-          .messagingRepository
-          .getLastMessageStream(
-            widget.initiatorID,
-            widget.secondID,
-          );
-
-      stream.listen(
-        (message) {
-          if (!_lastMessageController.isClosed) {
-            _lastMessageController.add(message);
-          }
-        },
-        onError: (error) {
-          if (!_lastMessageController.isClosed) {
-            _lastMessageController.addError(error);
-          }
-        },
-      );
-    } catch (e) {
-      _lastMessageController.addError(e);
     }
   }
 }

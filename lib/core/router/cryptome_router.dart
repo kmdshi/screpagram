@@ -1,127 +1,37 @@
-import 'dart:convert';
+import 'package:auto_route/auto_route.dart';
+import 'package:screpagram/core/router/auth_guard.dart';
+import 'package:screpagram/core/router/cryptome_router.gr.dart';
 
-import 'package:cloudy/core/DI/dependency_config.dart';
-import 'package:cloudy/features/messaging/domain/entities/initial_data_value.dart';
-import 'package:cloudy/features/messaging/presentation/widgets/communication_screen.dart';
-import 'package:cloudy/features/registration/domain/entities/person_entity.dart';
-import 'package:cloudy/features/registration/presentation/widgets/onboarding_screen.dart';
-import 'package:cloudy/features/registration/presentation/widgets/registration_screen.dart';
-import 'package:cloudy/features/registration/presentation/widgets/restore_screen.dart';
-import 'package:cloudy/features/registration/presentation/widgets/verefication_screen.dart';
-import 'package:cloudy/features/registration/presentation/widgets/verify_sucess_screen.dart';
-import 'package:cloudy/features/settings/presentation/widgets/about_screen.dart';
-import 'package:cloudy/features/settings/presentation/widgets/cipher_screen.dart';
-import 'package:cloudy/features/settings/presentation/widgets/settings_screen.dart';
-import 'package:cloudy/core/presentation/general_screen.dart';
-import 'package:cloudy/core/presentation/import_adress_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+@AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
+class AppRouter extends RootStackRouter {
+  final AuthGuard authGuard;
 
-class TCryptomeRouter {
-  TCryptomeRouter._();
+  AppRouter(this.authGuard);
 
-  static final _rootNavigatorKey = GlobalKey<NavigatorState>();
-
-  static final router = GoRouter(
-    navigatorKey: _rootNavigatorKey,
-    initialLocation: '/verification',
-    routes: [
-      GoRoute(
-        path: '/verification',
-        redirect: (context, state) {
-          return handleRedirect();
-        },
-      ),
-      GoRoute(
-        path: '/start',
-        builder: (context, state) => const OnboardingScreen(),
-        routes: [
-          GoRoute(
-            path: 'create',
-            builder: (context, state) => const RegistationScreen(),
-            routes: [
-              GoRoute(
-                path: 'verif',
-                builder: (context, state) {
-                  final data = state.extra as PersonEntity?;
-                  if (data == null) {
-                    return throw ('no person, route error');
-                  }
-                  return VereficationScreen(person: data);
-                },
-                routes: [
-                  GoRoute(
-                    path: 'success',
-                    builder: (context, state) => const VerifySuccessScreen(),
-                  ),
-                ],
-              )
-            ],
-          ),
-          GoRoute(
-            path: 'restore',
-            builder: (context, state) => const RestoreScreen(),
+  @override
+  List<AutoRoute> get routes => [
+        AutoRoute(
+          path: '/',
+          page: PlaceholderRoute.page,
+          initial: true,
+          guards: [authGuard],
+          children: [
+            AutoRoute(
+              path: 'feed',
+              page: FeedRoute.page,
+            )
+          ],
+        ),
+        AutoRoute(
+          path: '/onboarding',
+          page: OnboardingRoute.page,
+        ),
+        AutoRoute(path: '/reg', page: RegistationRoute.page, children: [
+          AutoRoute(path: '', page: BaseRegRoute.page),
+          AutoRoute(
+            path: 'additional',
+            page: AddingAdditionalInfoRoute.page,
           )
-        ],
-      ),
-      GoRoute(
-        path: '/messages',
-        builder: (context, state) => const GeneralScreen(),
-        routes: [
-          GoRoute(
-              path: 'import/:AID',
-              builder: (context, state) {
-                final String AID = state.pathParameters['AID']!;
-                return ImportAddressScreen(isFromSettings: false, AID: AID);
-              }),
-          GoRoute(
-            path: 'communication',
-            builder: (context, state) {
-              final data = state.extra as InitialDataValueEntity;
-              return CommunicationScreen(initialDataValueEntity: data);
-            },
-          ),
-          GoRoute(
-            path: 'settings',
-            builder: (context, state) {
-              return const SettingsScreen();
-            },
-            routes: [
-              GoRoute(
-                  path: 'import/:AID',
-                  builder: (context, state) {
-                    final String AID = state.pathParameters['AID']!;
-                    return ImportAddressScreen(isFromSettings: true, AID: AID);
-                  }),
-              GoRoute(
-                path: 'cipher',
-                builder: (context, state) => const CipherScreen(),
-              ),
-              GoRoute(
-                path: 'about',
-                builder: (context, state) => const AboutScreen(),
-              ),
-            ],
-          )
-        ],
-      )
-    ],
-  );
-}
-
-String? handleRedirect() {
-  final prefs = getIt<SharedPreferences>();
-  var sessionInformation = prefs.getString('session_information');
-
-  if (sessionInformation == null) {
-    return '/start';
-  }
-
-  final sessionData = jsonDecode(sessionInformation);
-  bool isLoggined = sessionData['is_loggined'] ?? false;
-  if (isLoggined) {
-    return '/messages';
-  }
-  return null;
+        ]),
+      ];
 }

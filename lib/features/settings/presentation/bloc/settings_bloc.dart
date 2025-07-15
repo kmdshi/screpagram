@@ -1,13 +1,11 @@
-import 'package:cloudy/features/settings/domain/entity/user_self_entitiy.dart';
-import 'package:cloudy/features/settings/domain/repository/settings_repository.dart';
+import 'package:screpagram/features/settings/domain/entity/user_self_entitiy.dart';
+import 'package:screpagram/features/settings/domain/repository/settings_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
 
 part 'settings_event.dart';
 part 'settings_state.dart';
 
-@injectable
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final SettingsRepository settingsRepository;
   SettingsBloc({

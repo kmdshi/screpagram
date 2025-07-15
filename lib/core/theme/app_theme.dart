@@ -1,5 +1,5 @@
-import 'package:cloudy/core/theme/color_theme.dart';
-import 'package:cloudy/core/theme/text_theme.dart';
+import 'package:screpagram/core/theme/color_theme.dart';
+import 'package:screpagram/core/theme/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
@@ -59,7 +59,7 @@ class TCiphermeTheme {
         fontSize: 20,
       ),
     ),
-    tabBarTheme: TabBarTheme(
+    tabBarTheme: TabBarThemeData(
       labelPadding: EdgeInsets.all(16),
       dividerColor: TColorTheme.transparent,
       indicatorSize: TabBarIndicatorSize.tab,

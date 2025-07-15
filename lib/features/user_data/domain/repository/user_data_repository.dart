@@ -1,6 +1,6 @@
-import 'package:cloudy/features/user_data/domain/entities/last_message_entity.dart';
-import 'package:cloudy/features/user_data/domain/entities/self_entity.dart';
-import 'package:cloudy/features/user_data/domain/entities/user_entity.dart';
+import 'package:screpagram/features/user_data/domain/entities/last_message_entity.dart';
+import 'package:screpagram/features/user_data/domain/entities/self_entity.dart';
+import 'package:screpagram/features/user_data/domain/entities/user_entity.dart';
 
 abstract class UserDataRepository {
   Future<SelfEntity> handleSelfEntity();

@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:cloudy/features/messaging/domain/entities/message_entity.dart';
+import 'package:screpagram/features/messaging/domain/entities/message_entity.dart';
 import 'package:pointycastle/api.dart';
 
 abstract class MessagingRepository {

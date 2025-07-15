@@ -1,9 +1,6 @@
-import 'package:cloudy/core/router/cryptome_router.dart';
-import 'package:cloudy/core/theme/color_theme.dart';
-import 'package:cloudy/core/utils/constants.dart';
-import 'package:cloudy/core/presentation/show_url_widget.dart';
+import 'package:screpagram/core/theme/color_theme.dart';
+import 'package:screpagram/core/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class SettingsOptionsWidget extends StatelessWidget {
   final String AID;
@@ -37,26 +34,9 @@ class SettingsOptionsWidget extends StatelessWidget {
                       : TColorTheme.textGrey,
                 ),
           ),
-          onTap: () => onTap(index, context),
+          onTap: () {},
         );
       },
     );
-  }
-
-  void onTap(int index, BuildContext context) async {
-    switch (index) {
-      case 0:
-        await showUrlDialog(context, AID, urlStatus, true);
-      case 1:
-        context.push('/messages/settings/import/$AID');
-      case 2:
-        print('Appearance');
-      case 3:
-        context.push('/messages/settings/cipher');
-      case 4:
-        context.push('/messages/settings/about');
-      case 5:
-        print('Log Out');
-    }
   }
 }

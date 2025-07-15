@@ -1,10 +1,9 @@
-import 'package:cloudy/core/gen/assets.gen.dart';
-import 'package:cloudy/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:cloudy/features/settings/presentation/widgets/header_widget.dart';
-import 'package:cloudy/features/settings/presentation/widgets/settings_options_widget.dart';
+import 'package:screpagram/core/gen/assets.gen.dart';
+import 'package:screpagram/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:screpagram/features/settings/presentation/widgets/header_widget.dart';
+import 'package:screpagram/features/settings/presentation/widgets/settings_options_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -25,7 +24,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => context.pop(),
+          onPressed: () {},
           icon: Assets.icons.arrowIcon.image(),
         ),
         title: const Text('Settings'),

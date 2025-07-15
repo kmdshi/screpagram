@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:cloudy/features/user_data/data/DTO/users_dto.dart';
+import 'package:screpagram/features/user_data/data/DTO/users_dto.dart';
 
 class UserEntity {
   final String? localName;

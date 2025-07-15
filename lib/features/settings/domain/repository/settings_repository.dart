@@ -1,4 +1,4 @@
-import 'package:cloudy/features/settings/domain/entity/user_self_entitiy.dart';
+import 'package:screpagram/features/settings/domain/entity/user_self_entitiy.dart';
 
 abstract class SettingsRepository {
   Future<UserSelfEntitiy> initialUserData();
