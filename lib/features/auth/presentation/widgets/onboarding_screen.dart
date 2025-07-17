@@ -51,7 +51,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                 Text('Third Page', style: textTheme.titleLarge),
                 ElevatedButton(
                     onPressed: () => context.replaceRoute(
-                          RegistationRoute(),
+                          RegistrationRoute(),
                         ),
                     child: Text('Го'))
               ]),

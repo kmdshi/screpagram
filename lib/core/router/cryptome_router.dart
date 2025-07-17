@@ -12,26 +12,36 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
         AutoRoute(
           path: '/',
-          page: PlaceholderRoute.page,
+          page: RootRoute.page,
           initial: true,
           guards: [authGuard],
           children: [
             AutoRoute(
-              path: 'feed',
-              page: FeedRoute.page,
-            )
+              path: 'feedRouter',
+              page: FeedRouter.page,
+              children: [
+                AutoRoute(path: '', page: FeedRoute.page),
+                AutoRoute(path: 'newPost', page: AddPostRoute.page)
+              ],
+            ),
+            AutoRoute(path: 'messages', page: MessagingRoute.page),
+            AutoRoute(path: 'profile', page: ProfileRoute.page),
           ],
         ),
         AutoRoute(
           path: '/onboarding',
           page: OnboardingRoute.page,
         ),
-        AutoRoute(path: '/reg', page: RegistationRoute.page, children: [
-          AutoRoute(path: '', page: BaseRegRoute.page),
-          AutoRoute(
-            path: 'additional',
-            page: AddingAdditionalInfoRoute.page,
-          )
-        ]),
+        AutoRoute(
+          path: '/reg',
+          page: RegistrationRoute.page,
+          children: [
+            AutoRoute(path: '', page: BaseRegRoute.page),
+            AutoRoute(
+              path: 'additional',
+              page: AddingAdditionalInfoRoute.page,
+            )
+          ],
+        ),
       ];
 }

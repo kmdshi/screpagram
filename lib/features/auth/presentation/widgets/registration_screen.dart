@@ -2,14 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class RegistationScreen extends StatefulWidget {
-  const RegistationScreen({super.key});
+class RegistrationRoute extends StatefulWidget {
+  const RegistrationRoute({super.key});
 
   @override
-  State<RegistationScreen> createState() => _RegistationScreenState();
+  State<RegistrationRoute> createState() => _RegistrationRouteState();
 }
 
-class _RegistationScreenState extends State<RegistationScreen> {
+class _RegistrationRouteState extends State<RegistrationRoute> {
   late final TextEditingController nicknameController;
   late final TextEditingController interestsController;
   late final TextEditingController keyPhraseController;
@@ -25,9 +25,6 @@ class _RegistationScreenState extends State<RegistationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: AutoRouter()
-    );
+    return Scaffold(resizeToAvoidBottomInset: false, body: AutoRouter());
   }
 }

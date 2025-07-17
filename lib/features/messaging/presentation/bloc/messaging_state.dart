@@ -13,15 +13,6 @@ final class MessagingInitial extends MessagingState {}
 class MessagingLoading extends MessagingState {}
 
 class MessagingLoaded extends MessagingState {
-  final Uint8List dialogKey;
-  final Stream<List<MessageEntity>> chatHistory;
-  const MessagingLoaded({
-    required this.dialogKey,
-    required this.chatHistory,
-  });
-
-  @override
-  List<Object> get props => [dialogKey];
 }
 
 class MessagingFailure extends MessagingState {

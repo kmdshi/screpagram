@@ -1,18 +1,17 @@
-import 'dart:typed_data';
-
 import 'package:screpagram/features/messaging/domain/entities/message_entity.dart';
-import 'package:pointycastle/api.dart';
 
 abstract class MessagingRepository {
-  Future<Uint8List> startDialog(
-    String initiatorAID,
-    String secondAID,
-    PublicKey secondPublicKey,
-  );
+  Stream<List<String>> getUserChatIds(String uid);
 
-  Future<void> sendMessage(String message, Uint8List dialogKey,
-      String initiatorAID, String secondAID);
+  Stream<List<MessageModel>> getMessages(String chatId);
 
-  Stream<List<MessageEntity>> getMessagesStream(
-      String initiatorAID, String secondAID, Uint8List dialogKey);
+  Future<void> sendMessage({
+    required String chatId,
+    required MessageModel message,
+  });
+
+  Future<void> createChat({
+    required String uid1,
+    required String uid2,
+  });
 }

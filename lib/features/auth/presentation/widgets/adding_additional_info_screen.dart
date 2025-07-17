@@ -1,5 +1,8 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:screpagram/core/presentation/root_screen.dart';
+import 'package:screpagram/core/router/cryptome_router.gr.dart';
 
 @RoutePage()
 class AddingAdditionalInfoScreen extends StatefulWidget {
@@ -99,7 +102,7 @@ class _AddingAdditionalInfoScreenState
             SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
-                // обработка
+                context.router.replace(const RootRoute());
               },
               child: const Text('Продолжить'),
             ),
