@@ -7,6 +7,10 @@ import 'package:screpagram/features/auth/data/data_source/remote/reg_fb_repo.dar
 import 'package:screpagram/features/auth/data/repository/registration_repository_impl.dart';
 import 'package:screpagram/features/auth/domain/repository/registration_repository.dart';
 import 'package:screpagram/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:screpagram/features/explore/data/datasource/explore_fb_repo.dart';
+import 'package:screpagram/features/explore/data/repository/explore_repo_impl.dart';
+import 'package:screpagram/features/explore/domain/explore_repo.dart';
+import 'package:screpagram/features/explore/presentation/bloc/explore/explore_bloc.dart';
 import 'package:screpagram/features/feed/data/datasource/remote/feed_fb_repo.dart';
 import 'package:screpagram/features/feed/data/repository/feed_repo_impl.dart';
 import 'package:screpagram/features/feed/domain/repository/feed_repo.dart';
@@ -64,11 +68,22 @@ Future<DependenciesContainer> createDependenciesContainer() async {
 
   final feedBloc = createFeedBloc(feedRepo);
 
+  // feed
+
+  // explore
+
+  final exploreFbRepo = createExploreFbRepo(fbFirestore, fbAuth);
+
+  final exploreRepo = createExploreRepo(exploreFbRepo);
+
+  final exploreBloc = createExploreBloc(exploreRepo);
+
   return DependenciesContainer(
     authGuard: authGuard,
     authBloc: authBloc,
     authCubit: authCubit,
     feedBloc: feedBloc,
+    exploreBloc: exploreBloc,
   );
 }
 
@@ -112,4 +127,17 @@ FeedRepo createFeedRepo(FeedFbRepo feedFbRepo) {
 
 FeedBloc createFeedBloc(FeedRepo feedRepo) {
   return FeedBloc(feedRepo: feedRepo);
+}
+
+ExploreFbRepo createExploreFbRepo(
+    FirebaseFirestore firestore, FirebaseAuth fbAuth) {
+  return ExploreFbRepo(firestore, fbAuth);
+}
+
+ExploreRepo createExploreRepo(ExploreFbRepo exploreFbRepo) {
+  return ExploreRepoImpl(exploreFbRepo: exploreFbRepo);
+}
+
+ExploreBloc createExploreBloc(ExploreRepo exploreRepo) {
+  return ExploreBloc(exploreRepo);
 }

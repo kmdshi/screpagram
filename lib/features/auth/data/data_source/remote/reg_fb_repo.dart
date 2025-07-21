@@ -2,8 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:screpagram/core/domain/models/person_entity.dart';
-import 'package:screpagram/features/auth/domain/entities/person_form_model.dart';
+import 'package:screpagram/features/auth/domain/entities/person_entity.dart';
 
 class RegFbRepo {
   final FirebaseAuth firebaseAuth;
@@ -13,11 +12,11 @@ class RegFbRepo {
     required this.firebaseFirestore,
   });
 
-  Future<UserCredential> signIn(PersonFormModel personEntity) async {
+  Future<UserCredential> signIn(String email, String pass) async {
     try {
       final user = await firebaseAuth.signInWithEmailAndPassword(
-        email: personEntity.nickname ?? '',
-        password: personEntity.password ?? '',
+        email: email,
+        password: pass,
       );
       return user;
     } on FirebaseAuthException catch (e) {
@@ -41,13 +40,14 @@ class RegFbRepo {
     }
   }
 
-  Future<UserCredential> signUp(PersonFormModel personEntity) async {
+  Future<UserCredential> signUp(String email, String pass) async {
     try {
       final UserCredential user =
           await firebaseAuth.createUserWithEmailAndPassword(
-        email: personEntity.nickname ?? '',
-        password: personEntity.password ?? '',
+        email: email,
+        password: pass,
       );
+
       return user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -62,7 +62,23 @@ class RegFbRepo {
     }
   }
 
-  Future<void> addAdditInfo(PersonEntity personEntity) async {
-    await firebaseFirestore.collection('profiles').add(personEntity.toMap());
+  Future<void> addAdditInfo() async {
+    final user = firebaseAuth.currentUser;
+    if (user == null) throw Exception('Пользователь не авторизован');
+
+    final profiles = firebaseFirestore.collection('profiles');
+
+    final snapshot = await profiles.get();
+
+    final citizenNumber = snapshot.docs.length + 1;
+
+    final updatedPerson = PersonEntity(
+      id: user.uid,
+      nickname: 'Гражданин №$citizenNumber',
+      friends: [],
+      friendRequests: [],
+    );
+
+    await profiles.doc(user.uid).set(updatedPerson.toMap());
   }
 }

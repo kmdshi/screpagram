@@ -10,7 +10,9 @@ final class AuthInitial extends AuthState {}
 
 final class AuthLoading extends AuthState {}
 
-final class AuthAuthenticated extends AuthState {}
+final class AuthAuthenticated extends AuthState {
+  AuthAuthenticated();
+}
 
 final class AuthUnauthenticated extends AuthState {}
 

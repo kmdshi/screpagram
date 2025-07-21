@@ -10,19 +10,6 @@ class RegistrationRoute extends StatefulWidget {
 }
 
 class _RegistrationRouteState extends State<RegistrationRoute> {
-  late final TextEditingController nicknameController;
-  late final TextEditingController interestsController;
-  late final TextEditingController keyPhraseController;
-
-  @override
-  void initState() {
-    nicknameController = TextEditingController();
-    interestsController = TextEditingController();
-    keyPhraseController = TextEditingController();
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(resizeToAvoidBottomInset: false, body: AutoRouter());

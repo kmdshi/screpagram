@@ -2,7 +2,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:screpagram/features/auth/data/data_source/remote/reg_fb_repo.dart';
-import 'package:screpagram/features/auth/domain/entities/person_form_model.dart';
 import 'package:screpagram/features/auth/domain/repository/registration_repository.dart';
 
 class RegRepoImpl implements RegRepo {
@@ -12,18 +11,17 @@ class RegRepoImpl implements RegRepo {
   });
 
   @override
-  Future<UserCredential> signIn(PersonFormModel personEntity) async {
-    return await regFbRepo.signIn(personEntity);
+  Future<UserCredential> signIn(String email, String pass) async {
+    return await regFbRepo.signIn(email, pass);
   }
 
   @override
-  Future<UserCredential> signUp(PersonFormModel personEntity) async {
-    return await regFbRepo.signUp(personEntity);
+  Future<UserCredential> signUp(String email, String pass) async {
+    return await regFbRepo.signUp(email, pass);
   }
 
   @override
-  Future<void> addAddInfo(PersonFormModel personEntity) {
-    // TODO: implement addAddInfo
-    throw UnimplementedError();
+  Future<void> addAddInfo() async {
+    await regFbRepo.addAdditInfo();
   }
 }

@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screpagram/core/initialization/widget/custom_snackbar.dart';
 import 'package:screpagram/core/router/cryptome_router.gr.dart';
-import 'package:screpagram/core/domain/models/person_entity.dart';
-import 'package:screpagram/features/auth/domain/entities/person_form_model.dart';
+import 'package:screpagram/features/auth/domain/entities/person_entity.dart';
 import 'package:screpagram/features/auth/presentation/bloc/auth_bloc.dart';
 
 @RoutePage()
@@ -16,14 +15,12 @@ class BaseRegScreen extends StatefulWidget {
 }
 
 class _BaseRegScreenState extends State<BaseRegScreen> {
-  final nicknameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
-    nicknameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
@@ -35,7 +32,7 @@ class _BaseRegScreenState extends State<BaseRegScreen> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthAuthenticated) {
-          context.router.push(const AddingAdditionalInfoRoute());
+          context.router.push(AddingAdditionalInfoRoute());
         } else if (state is AuthFailure) {
           showCustomSnackBar(context, state.message);
         }
@@ -51,10 +48,6 @@ class _BaseRegScreenState extends State<BaseRegScreen> {
               const Text('Добро пожаловать в Screpagram!'),
               const Text('Давайте создадим ваш аккаунт!'),
               const SizedBox(height: 20),
-              TextField(
-                controller: nicknameController,
-                decoration: const InputDecoration(hintText: 'Прозвище'),
-              ),
               const SizedBox(height: 20),
               TextField(
                 controller: emailController,
@@ -86,15 +79,11 @@ class _BaseRegScreenState extends State<BaseRegScreen> {
   }
 
   void _onRegisterPressed() {
-    final nickname = nicknameController.text.trim();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
     final confirmPassword = confirmPasswordController.text.trim();
 
-    if (nickname.isEmpty ||
-        email.isEmpty ||
-        password.isEmpty ||
-        confirmPassword.isEmpty) {
+    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       showCustomSnackBar(context, 'Заполните все поля');
       return;
     }
@@ -104,12 +93,6 @@ class _BaseRegScreenState extends State<BaseRegScreen> {
       return;
     }
 
-    final person = PersonFormModel(
-      nickname: nickname,
-      email: email,
-      password: password,
-    );
-
-    context.read<AuthBloc>().add(SignUpEvent(personEntity: person));
+    context.read<AuthBloc>().add(SignUpEvent(pass: password, email: email));
   }
 }

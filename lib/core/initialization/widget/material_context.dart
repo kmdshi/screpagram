@@ -4,7 +4,6 @@ import 'package:screpagram/core/initialization/dependency_scope.dart';
 import 'package:screpagram/core/router/cryptome_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:screpagram/core/router/cryptome_router.gr.dart';
 
 class MaterialContext extends StatelessWidget {
   const MaterialContext({super.key});
@@ -17,17 +16,12 @@ class MaterialContext extends StatelessWidget {
       providers: [
         BlocProvider(create: (ctx) => DependenciesScope.of(context).authCubit),
         BlocProvider(create: (ctx) => DependenciesScope.of(context).authBloc),
-        BlocProvider(create: (ctx) => DependenciesScope.of(context).feedBloc)
+        BlocProvider(create: (ctx) => DependenciesScope.of(context).feedBloc),
+        BlocProvider(
+            create: (ctx) => DependenciesScope.of(context).exploreBloc),
       ],
-      child: BlocListener<AuthCubit, AuthState>(
-        listenWhen: (previous, current) =>
-            current is AuthUnauthenticated && previous is AuthAuthenticated,
-        listener: (context, state) {
-          context.router.replaceAll([const RegistrationRoute()]);
-        },
-        child: MaterialApp.router(
-          routerConfig: router.config(),
-        ),
+      child: MaterialApp.router(
+        routerConfig: router.config(),
       ),
     );
   }

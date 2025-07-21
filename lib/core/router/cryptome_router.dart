@@ -24,6 +24,14 @@ class AppRouter extends RootStackRouter {
                 AutoRoute(path: 'newPost', page: AddPostRoute.page)
               ],
             ),
+            AutoRoute(
+              path: 'exploreRouter',
+              page: ExploreRouter.page,
+              children: [
+                AutoRoute(path: '', page: ExploreRoute.page),
+                AutoRoute(path: 'user', page: PeopleRoute.page)
+              ],
+            ),
             AutoRoute(path: 'messages', page: MessagingRoute.page),
             AutoRoute(path: 'profile', page: ProfileRoute.page),
           ],
