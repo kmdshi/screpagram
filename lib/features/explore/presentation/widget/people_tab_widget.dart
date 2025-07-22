@@ -28,8 +28,7 @@ class PeopleTabWidget extends StatelessWidget {
                 title: Text(person.nickname),
                 subtitle: Text('${person.friends.length} связей'),
                 trailing: const Icon(Icons.chevron_right),
-                onTap: () =>
-                    context.router.push(PeopleRoute(uid: person.id)),
+                onTap: () => context.router.push(PeopleRoute(uid: person.id)),
               );
             },
           );
@@ -39,7 +38,7 @@ class PeopleTabWidget extends StatelessWidget {
           return Center(child: Text('Ошибка: ${state.message}'));
         }
 
-        return const Center(child: Text('Нет данных'));
+        return const SizedBox.shrink();
       },
     );
   }

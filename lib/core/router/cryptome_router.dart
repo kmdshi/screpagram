@@ -21,18 +21,31 @@ class AppRouter extends RootStackRouter {
               page: FeedRouter.page,
               children: [
                 AutoRoute(path: '', page: FeedRoute.page),
-                AutoRoute(path: 'newPost', page: AddPostRoute.page)
+                AutoRoute(path: 'newPost', page: AddPostRoute.page),
+                AutoRoute(path: 'actions', page: ActionsRoute.page)
               ],
             ),
             AutoRoute(
               path: 'exploreRouter',
               page: ExploreRouter.page,
+              maintainState: false,
               children: [
                 AutoRoute(path: '', page: ExploreRoute.page),
                 AutoRoute(path: 'user', page: PeopleRoute.page)
               ],
             ),
-            AutoRoute(path: 'messages', page: MessagingRoute.page),
+            AutoRoute(
+              path: 'chats',
+              page: ChatRouter.page,
+              children: [
+                AutoRoute(path: '', page: ChatsRoute.page),
+                AutoRoute(
+                  path: 'chat',
+                  page: ChatRoute.page,
+                  meta: {'hideBottomNav': true},
+                ),
+              ],
+            ),
             AutoRoute(path: 'profile', page: ProfileRoute.page),
           ],
         ),

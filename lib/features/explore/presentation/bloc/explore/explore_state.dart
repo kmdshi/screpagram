@@ -20,6 +20,17 @@ final class ExploreUsersLoaded extends ExploreState {
   List<Object> get props => [users];
 }
 
+final class ExplorePostsLoaded extends ExploreState {
+  final List<PostModel> posts;
+
+  const ExplorePostsLoaded(this.posts);
+
+  @override
+  List<Object> get props => [posts];
+}
+
+
+
 final class ExploreUserLoaded extends ExploreState {
   final PersonEntity user;
 

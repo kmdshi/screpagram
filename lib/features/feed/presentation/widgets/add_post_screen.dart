@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:screpagram/core/cubit/user/user_cubit.dart';
 import 'package:screpagram/features/feed/domain/model/post_model.dart';
-import 'package:screpagram/features/feed/presentation/bloc/feed_bloc.dart';
+import 'package:screpagram/features/feed/presentation/bloc/feed/feed_bloc.dart';
 
 @RoutePage()
 class AddPostScreen extends StatefulWidget {
@@ -50,6 +51,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 
   void _submitPost() async {
+    final user = context.read<UserCubit>().state;
     final text = _controller.text.trim();
     if (text.isEmpty) return;
 
@@ -59,7 +61,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
       final post = PostModel(
         id: '',
         content: text,
-        authorId: 'hardcoded_user_id',
+        authorId: user?.id ?? 'error',
         timestamp: DateTime.now(),
       );
 

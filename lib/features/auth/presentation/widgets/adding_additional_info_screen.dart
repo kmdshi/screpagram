@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:screpagram/core/cubit/user/user_cubit.dart';
 import 'package:screpagram/core/initialization/widget/custom_snackbar.dart';
 import 'package:screpagram/core/router/cryptome_router.gr.dart';
 import 'package:screpagram/features/auth/presentation/bloc/auth_bloc.dart';
@@ -21,6 +22,7 @@ class _AddingAdditionalInfoScreenState
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthAuthenticated) {
+          context.read<UserCubit>().setUser(state.user!);
           context.router.replace(const RootRoute());
         } else if (state is AuthFailure) {
           showCustomSnackBar(context, state.message);
@@ -113,9 +115,7 @@ class _AddingAdditionalInfoScreenState
               SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () {
-                  context
-                      .read<AuthBloc>()
-                      .add(AddAdditInfoEvent());
+                  context.read<AuthBloc>().add(AddAdditInfoEvent());
                 },
                 child: const Text('Продолжить'),
               ),

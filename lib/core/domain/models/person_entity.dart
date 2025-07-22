@@ -12,9 +12,9 @@ class PersonEntity {
   PersonEntity({
     required this.friends,
     required this.friendRequests,
-    this.id = '',
-    this.nickname = '',
-    this.trustworthinessIndex = 100,
+    required this.id,
+    required this.nickname,
+    required this.trustworthinessIndex,
   });
 
   Map<String, dynamic> toMap() {

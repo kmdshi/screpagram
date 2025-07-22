@@ -39,9 +39,11 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^9.1.1
   google_fonts: ^6.2.1
+  hydrated_bloc: ^10.1.1
   image_picker: ^1.1.2
   intl: ^0.20.2
   lottie: ^3.1.2
+  path_provider: ^2.1.5
   qr_flutter: ^4.1.0
   shared_preferences: ^2.3.2
   tab_indicator_styler: ^2.0.0

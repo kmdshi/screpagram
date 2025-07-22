@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:screpagram/core/cubit/auth_cubit.dart';
+import 'package:screpagram/core/cubit/auth/auth_cubit.dart';
 import 'package:screpagram/core/router/cryptome_router.gr.dart';
 
 @RoutePage()
@@ -20,10 +20,15 @@ class RootPage extends StatelessWidget {
         routes: [
           FeedRouter(),
           ExploreRouter(),
-          MessagingRoute(),
+          ChatsRoute(),
           ProfileRoute(),
         ],
         bottomNavigationBuilder: (context, tabsRouter) {
+          final hideBottomNav =
+              context.topRouteMatch.meta['hideBottomNav'] == true;
+
+          if (hideBottomNav) return const SizedBox.shrink();
+
           return BottomNavigationBar(
               currentIndex: tabsRouter.activeIndex,
               onTap: tabsRouter.setActiveIndex,

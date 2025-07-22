@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:screpagram/features/auth/domain/entities/person_entity.dart';
+import 'package:screpagram/core/domain/models/person_entity.dart';
 
 class RegFbRepo {
   final FirebaseAuth firebaseAuth;
@@ -62,23 +62,38 @@ class RegFbRepo {
     }
   }
 
-  Future<void> addAdditInfo() async {
+  Future<PersonEntity> addAdditInfo() async {
     final user = firebaseAuth.currentUser;
     if (user == null) throw Exception('Пользователь не авторизован');
 
     final profiles = firebaseFirestore.collection('profiles');
+    final existingDoc = await profiles.doc(user.uid).get();
+    if (existingDoc.exists) return PersonEntity.fromMap(existingDoc.data()!);
 
-    final snapshot = await profiles.get();
+    final query =
+        await profiles.orderBy('nickname', descending: true).limit(1).get();
 
-    final citizenNumber = snapshot.docs.length + 1;
+    int lastNumber = 0;
+    if (query.docs.isNotEmpty) {
+      final lastNickname = query.docs.first['nickname'] as String;
+      final match = RegExp(r'Гражданин №(\d+)').firstMatch(lastNickname);
+      if (match != null) {
+        lastNumber = int.parse(match.group(1)!);
+      }
+    }
+
+    final citizenNumber = lastNumber + 1;
 
     final updatedPerson = PersonEntity(
       id: user.uid,
       nickname: 'Гражданин №$citizenNumber',
       friends: [],
       friendRequests: [],
+      trustworthinessIndex: 100,
     );
 
     await profiles.doc(user.uid).set(updatedPerson.toMap());
+
+    return updatedPerson;
   }
 }

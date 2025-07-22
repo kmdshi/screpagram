@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:screpagram/core/cubit/auth_cubit.dart';
+import 'package:screpagram/core/cubit/auth/auth_cubit.dart';
 import 'package:screpagram/core/router/cryptome_router.gr.dart';
 
 class AuthGuard extends AutoRouteGuard {

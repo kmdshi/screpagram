@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:screpagram/core/cubit/auth_cubit.dart';
+import 'package:screpagram/core/cubit/auth/auth_cubit.dart';
+import 'package:screpagram/core/cubit/user/user_cubit.dart';
 import 'package:screpagram/core/initialization/model/dependency_container.dart';
 import 'package:screpagram/core/router/auth_guard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +15,12 @@ import 'package:screpagram/features/explore/presentation/bloc/explore/explore_bl
 import 'package:screpagram/features/feed/data/datasource/remote/feed_fb_repo.dart';
 import 'package:screpagram/features/feed/data/repository/feed_repo_impl.dart';
 import 'package:screpagram/features/feed/domain/repository/feed_repo.dart';
-import 'package:screpagram/features/feed/presentation/bloc/feed_bloc.dart';
+import 'package:screpagram/features/feed/presentation/bloc/actions/actions_bloc.dart';
+import 'package:screpagram/features/feed/presentation/bloc/feed/feed_bloc.dart';
+import 'package:screpagram/features/messaging/data/datasources/remote/msg_fb_repo.dart';
+import 'package:screpagram/features/messaging/data/repository/messaging_repository_impl.dart';
+import 'package:screpagram/features/messaging/domain/repository/messaging_repository.dart';
+import 'package:screpagram/features/messaging/presentation/bloc/messaging_bloc.dart';
 
 final class CompositionRoot {
   const CompositionRoot();
@@ -46,6 +52,12 @@ Future<DependenciesContainer> createDependenciesContainer() async {
 
   final fbFirestore = createFirebaseFirestore();
 
+  // user
+
+  final userCubit = createUserCubit();
+
+  // user
+
   // auth
 
   final authCubit = createAuthCubit(fbAuth);
@@ -62,7 +74,7 @@ Future<DependenciesContainer> createDependenciesContainer() async {
 
   // feed
 
-  final feedFbRepo = createFeedFbRepo(fbFirestore);
+  final feedFbRepo = createFeedFbRepo(fbFirestore, fbAuth);
 
   final feedRepo = createFeedRepo(feedFbRepo);
 
@@ -78,12 +90,33 @@ Future<DependenciesContainer> createDependenciesContainer() async {
 
   final exploreBloc = createExploreBloc(exploreRepo);
 
+  // explore
+
+  // messaging
+
+  final msgFbRepo = createMsgFbRepo(fbAuth, fbFirestore);
+
+  final msgRepo = createMessagingRepo(msgFbRepo);
+
+  final msgBloc = createMessagingBloc(msgRepo);
+
+  // messaging
+
+  // feed
+
+  final actionsBloc = createActionsBloc(feedRepo);
+
+  // feed
+
   return DependenciesContainer(
     authGuard: authGuard,
     authBloc: authBloc,
     authCubit: authCubit,
+    userCubit: userCubit,
+    actionsBloc: actionsBloc,
     feedBloc: feedBloc,
     exploreBloc: exploreBloc,
+    messagingBloc: msgBloc,
   );
 }
 
@@ -93,6 +126,10 @@ FirebaseAuth createFirebaseAuth() {
 
 FirebaseFirestore createFirebaseFirestore() {
   return FirebaseFirestore.instance;
+}
+
+UserCubit createUserCubit() {
+  return UserCubit();
 }
 
 AuthCubit createAuthCubit(FirebaseAuth firebaseAuth) {
@@ -117,8 +154,10 @@ AuthBloc createAuthBloc(RegRepo regRepo) {
   return AuthBloc(regRepo: regRepo);
 }
 
-FeedFbRepo createFeedFbRepo(FirebaseFirestore firebaseFirestore) {
-  return FeedFbRepo(firebaseFirestore: firebaseFirestore);
+FeedFbRepo createFeedFbRepo(
+    FirebaseFirestore firebaseFirestore, FirebaseAuth firebaseAuth) {
+  return FeedFbRepo(
+      firebaseFirestore: firebaseFirestore, firebaseAuth: firebaseAuth);
 }
 
 FeedRepo createFeedRepo(FeedFbRepo feedFbRepo) {
@@ -140,4 +179,22 @@ ExploreRepo createExploreRepo(ExploreFbRepo exploreFbRepo) {
 
 ExploreBloc createExploreBloc(ExploreRepo exploreRepo) {
   return ExploreBloc(exploreRepo);
+}
+
+MsgFbRepo createMsgFbRepo(
+    FirebaseAuth firebaseAuth, FirebaseFirestore firebaseFirestore) {
+  return MsgFbRepo(
+      firebaseFirestore: firebaseFirestore, firebaseAuth: firebaseAuth);
+}
+
+MessagingRepo createMessagingRepo(MsgFbRepo msgFbRepo) {
+  return MessagingRepositoryImpl(msgFbRepo: msgFbRepo);
+}
+
+MessagingBloc createMessagingBloc(MessagingRepo messagingRepo) {
+  return MessagingBloc(messagingRepo);
+}
+
+ActionsBloc createActionsBloc(FeedRepo feedRepo) {
+  return ActionsBloc(feedRepo: feedRepo);
 }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screpagram/core/initialization/widget/custom_snackbar.dart';
 import 'package:screpagram/core/router/cryptome_router.gr.dart';
-import 'package:screpagram/features/auth/domain/entities/person_entity.dart';
 import 'package:screpagram/features/auth/presentation/bloc/auth_bloc.dart';
 
 @RoutePage()

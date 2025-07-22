@@ -1,26 +1,30 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:screpagram/features/messaging/domain/entities/message_entity.dart';
 
 class MsgFbRepo {
+  final FirebaseAuth firebaseAuth;
   final FirebaseFirestore firebaseFirestore;
   MsgFbRepo({
     required this.firebaseFirestore,
+    required this.firebaseAuth,
   });
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getUserChats(String uid) {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getUserChats() {
+    final cur = firebaseAuth.currentUser!.uid;
     return firebaseFirestore
         .collection('chats')
-        .where('participants', arrayContains: uid)
+        .where('participants', arrayContains: cur)
         .snapshots();
   }
 
-  Stream<List<MessageModel>> getMessages(String chatId) {
+  Stream<List<MessageModel>> getChatMessages(String chatId) {
     return firebaseFirestore
         .collection('chats')
         .doc(chatId)
         .collection('messages')
-        .orderBy('timestamp', descending: true)
+        .orderBy('timestamp')
         .snapshots()
         .map((snap) => snap.docs
             .map((doc) => MessageModel.fromMap(doc.data(), id: doc.id))
@@ -42,7 +46,7 @@ class MsgFbRepo {
     required String uid1,
     required String uid2,
   }) async {
-    final chatId = _generateChatId(uid1, uid2);
+    final chatId = generateChatId(uid1, uid2);
 
     final chatDoc = firebaseFirestore.collection('chats').doc(chatId);
     final docSnapshot = await chatDoc.get();
@@ -51,11 +55,12 @@ class MsgFbRepo {
       await chatDoc.set({
         'participants': [uid1, uid2],
         'createdAt': Timestamp.now(),
+        'messages': {},
       });
     }
   }
 
-  String _generateChatId(String uid1, String uid2) {
+  String generateChatId(String uid1, String uid2) {
     final sorted = [uid1, uid2]..sort();
     return sorted.join('_');
   }

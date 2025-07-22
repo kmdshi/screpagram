@@ -87,12 +87,13 @@ class _PeopleScreenState extends State<PeopleScreen> {
                           const StatisticsWidget(),
                           const Divider(height: 30),
                           ListTile(
-                            leading: const Icon(Icons.add_circle_outline),
-                            title: const Text('Создать связь'),
-                            onTap: () => context
-                                .read<ExploreBloc>()
-                                .add(AddUserFreindRequest(user.id)),
-                          ),
+                              leading: const Icon(Icons.add_circle_outline),
+                              title: const Text('Создать связь'),
+                              onTap: () {
+                                context
+                                    .read<ExploreBloc>()
+                                    .add(AddUserFreindRequest(user.id));
+                              }),
                           ListTile(
                             leading: const Icon(Icons.chat_bubble_outline),
                             title: const Text('Написать сообщение'),
@@ -110,7 +111,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
                 );
               }
 
-              return const Center(child: Text('Загрузка...'));
+              return const SizedBox.shrink();
             },
           ),
         ),

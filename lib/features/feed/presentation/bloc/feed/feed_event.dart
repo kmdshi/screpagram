@@ -20,10 +20,13 @@ class AddPostEvent extends FeedEvent {
   List<Object> get props => [post];
 }
 
-class FeedUpdated extends FeedEvent {
-  final List<PostModel> posts;
-  const FeedUpdated({required this.posts});
+class LoadUserActionsEvent extends FeedEvent {}
 
-  @override
-  List<Object> get props => [posts];
+class AcceptFreindUserEvent extends FeedEvent {
+  final ActionModel action;
+  const AcceptFreindUserEvent({
+    required this.action,
+  });
+   @override
+  List<Object> get props => [action];
 }

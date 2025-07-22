@@ -15,7 +15,9 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen>
-    with SingleTickerProviderStateMixin {
+    with
+        SingleTickerProviderStateMixin,
+        AutoRouteAwareStateMixin<ExploreScreen> {
   late TabController _tabController;
 
   @override
@@ -31,6 +33,7 @@ class _ExploreScreenState extends State<ExploreScreen>
           context.read<ExploreBloc>().add(LoadExploreUsersEvent());
           break;
         case 1:
+          context.read<ExploreBloc>().add(LoadPostsEvent());
           break;
       }
     });

@@ -1,8 +1,9 @@
 import 'package:screpagram/features/messaging/data/datasources/remote/msg_fb_repo.dart';
+import 'package:screpagram/features/messaging/domain/entities/chat_entity.dart';
 import 'package:screpagram/features/messaging/domain/entities/message_entity.dart';
 import 'package:screpagram/features/messaging/domain/repository/messaging_repository.dart';
 
-class MessagingRepositoryImpl implements MessagingRepository {
+class MessagingRepositoryImpl implements MessagingRepo {
   final MsgFbRepo msgFbRepo;
 
   MessagingRepositoryImpl({
@@ -15,8 +16,8 @@ class MessagingRepositoryImpl implements MessagingRepository {
   }
 
   @override
-  Stream<List<MessageModel>> getMessages(String chatId) {
-    return msgFbRepo.getMessages(chatId);
+  Stream<List<MessageModel>> getChatMessages(String chatId) {
+    return msgFbRepo.getChatMessages(chatId);
   }
 
   @override
@@ -28,14 +29,18 @@ class MessagingRepositoryImpl implements MessagingRepository {
   }
 
   @override
-  Stream<List<String>> getUserChatIds(String uid) {
-    return msgFbRepo
-        .getUserChats(uid)
-        .map((snapshot) => snapshot.docs.map((doc) => doc.id).toList());
+  Stream<List<ChatEntity>> getUserChatIds() {
+    return msgFbRepo.getUserChats().map(
+          (snapshot) => snapshot.docs
+              .map(
+                (doc) => ChatEntity.fromMap(doc.data(), doc.id),
+              )
+              .toList(),
+        );
   }
 
-  String generateChatId(String uid1, String uid2) {
-    final sorted = [uid1, uid2]..sort();
-    return sorted.join('_');
+  @override
+  String getChatId(String uid1, String uid2) {
+    return msgFbRepo.generateChatId(uid1, uid2);
   }
 }

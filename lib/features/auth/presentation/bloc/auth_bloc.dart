@@ -1,11 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:screpagram/features/auth/domain/entities/person_entity.dart';
+import 'package:screpagram/core/domain/models/person_entity.dart';
 
 import 'package:screpagram/features/auth/domain/repository/registration_repository.dart';
 
@@ -24,7 +23,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     try {
       await regRepo.signUp(event.email, event.pass);
-      emit(AuthAuthenticated());
+
+      emit(AuthAuthenticated(null));
     } catch (e) {
       emit(AuthFailure(message: e.toString()));
     }
@@ -34,8 +34,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       AddAdditInfoEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
-      await regRepo.addAddInfo();
-      emit(AuthAuthenticated());
+      final user = await regRepo.addAddInfo();
+      emit(AuthAuthenticated(user));
     } catch (e) {
       emit(AuthFailure(message: e.toString()));
     }
@@ -45,7 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     try {
       await regRepo.signIn(event.email, event.pass);
-      emit(AuthAuthenticated());
+      emit(AuthAuthenticated(null));
     } catch (e) {
       emit(AuthFailure(message: e.toString()));
     }
