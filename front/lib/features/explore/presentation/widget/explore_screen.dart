@@ -16,8 +16,7 @@ class ExploreScreen extends StatefulWidget {
 
 class _ExploreScreenState extends State<ExploreScreen>
     with
-        SingleTickerProviderStateMixin,
-        AutoRouteAwareStateMixin<ExploreScreen> {
+        SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
