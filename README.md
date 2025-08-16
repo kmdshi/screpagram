@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=WHDAuqcva3c">
-    <img src="https://img.shields.io/badge/YouTube-Subscribe-red?logo=youtube&logoColor=white" alt="YouTube" />
+    <img src="https://img.shields.io/badge/Watch%20on-YouTube-red?logo=youtube&logoColor=white" alt="Watch on YouTube" />
   </a>
   <img src="https://img.shields.io/badge/Made%20with-Flutter-blue" alt="Flutter" />
 </p>
